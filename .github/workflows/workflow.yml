@@ -28,7 +28,7 @@ jobs:
       uses: softprops/action-gh-release@v1
       if: github.ref == 'refs/heads/master'
       with:
-        tag_name: ${{ github.ref }}
+        tag_name: v0.1.${{ github.run_number }}
         files:
           release.txt
       env:
