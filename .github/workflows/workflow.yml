@@ -26,7 +26,7 @@ jobs:
 
     - name: Publish the Klaabu binary
       uses: softprops/action-gh-release@v1
-      tag_name: ${{ env.VERSION }}
+      if: github.ref == 'refs/heads/master'
       with:
         files:
           release.txt
