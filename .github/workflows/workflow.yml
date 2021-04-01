@@ -22,7 +22,7 @@ jobs:
       run: touch release.txt && echo "testtt" >> release.txt
 
     - name: Set package version
-      run: echo "VERSION=$(cat ${GITHUB_EVENT_PATH} | jq -r '.release.tag_name')" >> $GITHUB_ENV
+      run: echo "VERSION=$(cat ${GITHUB_EVENT_PATH} | jq -r '.release.tag_name')" >> $GITHUB_ENV && env && git tag ${{ env.VERSION }}
 
     - name: Publish the Klaabu binary
       uses: softprops/action-gh-release@v1
@@ -31,4 +31,4 @@ jobs:
         files:
           release.txt
       env:
-        GITHUB_TOKEN: ${{ secrets.PUBLISH_TOKEN}}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
