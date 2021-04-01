@@ -1,0 +1,34 @@
+name: Go
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build_and_publish:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Go env
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.15
+
+    - name: Build
+      run: touch release.txt && echo "testtt" >> release.txt
+
+    - name: Set package version
+      run: echo "VERSION=$(cat ${GITHUB_EVENT_PATH} | jq -r '.release.tag_name')" >> $GITHUB_ENV
+
+    - name: Publish the Klaabu binary
+      uses: softprops/action-gh-release@v1
+      tag_name: ${{ env.VERSION }}
+      with:
+        files:
+          release.txt
+      env:
+        GITHUB_TOKEN: ${{ secrets.PUBLISH_TOKEN}}
